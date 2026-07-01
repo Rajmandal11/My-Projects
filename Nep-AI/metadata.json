@@ -1,0 +1,6 @@
+{
+  "name": "Forge AI",
+  "description": "An interactive replica and simulation of Nep AI containing specialized agents, active prompt templates, and custom workspace tools.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
