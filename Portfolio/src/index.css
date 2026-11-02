@@ -1,0 +1,189 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-display: 'Syne', sans-serif;
+    --font-sans: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+    --font-mono: 'Space Mono', monospace;
+    --accent-primary: #0284c7;
+    --accent-glow: rgba(2, 132, 199, 0.18);
+    --accent-border: rgba(2, 132, 199, 0.28);
+    --accent-bg: rgba(2, 132, 199, 0.06);
+    --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    /* Aura reference palette (sampled from Raj's image): silky periwinkle wash.
+       Colours: #e7f0fd / #ccdff1 / #9ebce0 / #bfd1ed / #c2d6f0 over a white base. */
+    background-color: #e3effc;
+    /* Silk-blue stack matched to Raj's reference: deep periwinkle pools in the
+       corners, bright white silk sweeping through the centre. */
+    background-image:
+      radial-gradient(125% 95% at 50% 42%, transparent 52%, rgba(141, 178, 224, 0.38) 100%),
+      radial-gradient(90% 55% at 68% 16%, rgba(255, 255, 255, 0.85), transparent 60%),
+      radial-gradient(1000px 620px at 92% -8%, rgba(141, 178, 224, 0.75), transparent 62%),
+      radial-gradient(80% 60% at 10% 38%, rgba(255, 255, 255, 0.55), transparent 65%),
+      radial-gradient(1100px 640px at 50% 112%, rgba(168, 198, 236, 0.65), transparent 62%),
+      radial-gradient(720px 520px at 4% 96%, rgba(191, 209, 237, 0.6), transparent 60%),
+      linear-gradient(152deg, #d9e9fb 0%, #e9f3fe 34%, #f6fbff 52%, #dcebfd 82%, #e3effc 100%);
+    background-attachment: fixed;
+    color: #0f172a;
+    font-family: var(--font-sans);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1, h2, h3, .font-display {
+    font-family: var(--font-display);
+  }
+
+  code, pre, .font-mono {
+    font-family: var(--font-mono);
+  }
+
+  ::selection {
+    background: #bae6fd;
+    color: #0c4a6e;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent-primary);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  section {
+    scroll-margin-top: 112px;
+  }
+}
+
+/* ---------- Typography helpers ---------- */
+.font-syne { font-family: 'Syne', sans-serif; }
+.font-outfit { font-family: 'Outfit', sans-serif; }
+.font-space-mono { font-family: 'Space Mono', monospace; }
+
+/* Outlined headline word (was white stroke on black — now slate stroke on white) */
+.border-text {
+  -webkit-text-stroke: 1.5px rgba(15, 23, 42, 0.75) !important;
+}
+
+/* ---------- Motion system (senior-grade, GPU-friendly) ---------- */
+@keyframes spinSlow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.animate-spin-slow { animation: spinSlow 18s linear infinite; }
+
+@keyframes softGlow {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 0.9; transform: scale(1.06); }
+}
+.animate-cyan-glow { animation: softGlow 6s ease-in-out infinite; }
+
+@keyframes floatY {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+.animate-float { animation: floatY 6s ease-in-out infinite; }
+
+@keyframes barGrow {
+  from { transform: scaleY(0.15); }
+  to { transform: scaleY(1); }
+}
+
+/* Scroll-reveal: sections start hidden ONLY when JS reveal is active on <html>.
+   If JS fails, everything stays visible — no blank page risk. */
+html.js-reveal [data-reveal] {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.9s var(--ease-out-expo), transform 0.9s var(--ease-out-expo);
+  will-change: opacity, transform;
+}
+html.js-reveal [data-reveal].is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Card hover title accent (replaces a dynamic Tailwind class that could never compile) */
+.project-card-title { transition: color 0.3s ease; }
+.group:hover .project-card-title { color: var(--accent-primary); }
+
+/* Lab chart bars animate from the baseline */
+.lab-bar {
+  transform-origin: bottom;
+  animation: barGrow 0.7s var(--ease-out-expo) both;
+  transition: height 0.6s var(--ease-out-expo), background-color 0.3s ease;
+}
+
+/* Same aura wash as a reusable surface (boot screen) */
+.bg-aura {
+  background-color: #e3effc;
+  background-image:
+    radial-gradient(125% 95% at 50% 42%, transparent 52%, rgba(141, 178, 224, 0.38) 100%),
+    radial-gradient(90% 55% at 68% 16%, rgba(255, 255, 255, 0.85), transparent 60%),
+    radial-gradient(1000px 620px at 92% -8%, rgba(141, 178, 224, 0.75), transparent 62%),
+    radial-gradient(80% 60% at 10% 38%, rgba(255, 255, 255, 0.55), transparent 65%),
+    radial-gradient(1100px 640px at 50% 112%, rgba(168, 198, 236, 0.65), transparent 62%),
+    radial-gradient(720px 520px at 4% 96%, rgba(191, 209, 237, 0.6), transparent 60%),
+    linear-gradient(152deg, #d9e9fb 0%, #e9f3fe 34%, #f6fbff 52%, #dcebfd 82%, #e3effc 100%);
+}
+
+/* ---------- Frosted glass panels (reference style) ---------- */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.68);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 18px 44px -14px rgba(74, 125, 212, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.glass-panel-hover {
+  transition: transform 0.35s var(--ease-out-expo), box-shadow 0.35s var(--ease-out-expo), border-color 0.35s ease;
+}
+.glass-panel-hover:hover {
+  background: rgba(255, 255, 255, 0.88);
+  border-color: rgba(147, 183, 232, 0.85);
+  box-shadow: 0 22px 48px -14px rgba(74, 125, 212, 0.35);
+  transform: translateY(-4px);
+}
+
+/* ---------- Backgrounds on white ---------- */
+.bg-grid-pattern {
+  background-size: 40px 40px;
+  background-image:
+    linear-gradient(to right, rgba(74, 125, 212, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(74, 125, 212, 0.05) 1px, transparent 1px);
+}
+
+.bg-radial-blue-glow {
+  background: radial-gradient(circle at 50% 30%, rgba(56, 189, 248, 0.10) 0%, rgba(255, 255, 255, 0) 70%);
+}
+
+/* ---------- Scrollbar (light) ---------- */
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: #f1f5f9; }
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 8px;
+  border: 2px solid #f1f5f9;
+}
+::-webkit-scrollbar-thumb:hover { background: #0284c7; }
+
+.scrollbar-none { scrollbar-width: none; }
+.scrollbar-none::-webkit-scrollbar { display: none; }
+
+/* ---------- Respect users who prefer less motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  html { scroll-behavior: auto; }
+  html.js-reveal [data-reveal] { opacity: 1; transform: none; }
+}
